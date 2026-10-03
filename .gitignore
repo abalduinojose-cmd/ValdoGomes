@@ -1,0 +1,20 @@
+# dependências
+/node_modules
+
+# builds do Next (cada modo na sua pasta; a prévia publicada fica em docs/)
+/.next/
+/.next-build/
+/.next-pages/
+/out/
+*.tsbuildinfo
+
+# material bruto: vídeos e fotos originais, logo original (os processados sobem)
+/midia/
+
+# capturas e testes locais (só os scripts sobem)
+/material/*
+!/material/*.mjs
+
+.env*
+.DS_Store
+npm-debug.log*

@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://abalduinojose-cmd.github.io/ValdoGomes/sitemap.xml

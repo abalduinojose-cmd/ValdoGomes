@@ -1,0 +1,601 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Valdo Gomes Advocacia · Tokens de design
+
+   Estrutura do site da Luciene Garcia (que segue o Cabana Afrodite), com a
+   paleta do Valdo: vinho predominante, preto, creme nos textos e um dourado
+   suave de apoio. Os nomes dos tokens ficaram os mesmos de propósito
+   (ink, ink-soft, gold...): o código é compartilhado, só os valores mudam.
+
+     ink        #0C1014  preto, seções escuras
+     ink-soft   #5D1718  vinho, seções de destaque (a cor da marca)
+     gold-light #FFF7EB  creme: títulos e texto (12:1 no vinho, 18:1 no preto)
+     champagne  #E9D6C6  creme suave: texto de apoio (9,6:1 no vinho)
+     gold       #CFA58D  dourado suave: fios, ícones e fundo de botão com
+                         texto preto por cima (8,5:1); como texto, 5,9:1 no vinho
+   -------------------------------------------------------------------------- */
+:root {
+  --ink: #0c1014;
+  --ink-soft: #5d1718;
+  --ink-card: #150e10;
+  --gold: #cfa58d;
+  --gold-light: #fff7eb;
+  --champagne: #e9d6c6;
+  --gold-dark: #8a6552;
+  --gold-top: #e8c7b2;
+  --gold-end: #a9826b;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-card: var(--ink-card);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-champagne: var(--champagne);
+  --color-gold-dark: var(--gold-dark);
+
+  --font-display: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: var(--font-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-sans: var(--font-body);
+
+  --ease-serra: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--ink);
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--champagne);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    /* algarismos alinhados: os de estilo antigo da serifa fazem "10" virar "1o" */
+    font-variant-numeric: lining-nums;
+    /* a Jakarta tem espaço entre palavras estreito: um respiro a mais */
+    word-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Contraste por extremos: títulos grandes, leves e com tracking fechado
+     contra rótulos de 11px em caixa alta aberta. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    color: var(--gold-light);
+    text-wrap: balance;
+  }
+  h1,
+  h2 {
+    font-weight: 300;
+    /* tracking fechado, mas o espaço entre palavras volta ao normal: a
+       Jakarta tem espaço estreito e as palavras grudavam no título */
+    letter-spacing: -0.025em;
+    word-spacing: 0.1em;
+    line-height: 1.06;
+  }
+  h3 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background-color: var(--gold);
+    color: var(--ink);
+  }
+
+  /* Atmosfera: grão de papel quase invisível sobre o preto, para o fundo
+     não ficar chapado. SVG embutido, sem requisição e sem mix-blend-mode
+     (que custou 10 pontos de performance na Celebrare). */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0 0.69 0 0 0 1.4 -0.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+  @media (prefers-contrast: more) {
+    body::before {
+      display: none;
+    }
+  }
+
+  /* Selo do Next em desenvolvimento: só existe em dev. */
+  nextjs-portal {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilitários da marca
+   -------------------------------------------------------------------------- */
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: clamp(1rem, 5vw, 3.5rem);
+}
+
+/* Rótulos: caixa alta pequena e aberta (eyebrows, selos, datas). */
+@utility rotulo-caps {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* O nome como na logo: caixa alta bem espaçada. */
+@utility nome-caps {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Frase de destaque: itálico leve, a voz "humana" do site. */
+@utility poetico {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+@utility leitura {
+  max-width: 65ch;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Alinha o início dos trilhos à coluna do container, sangrando à direita. */
+@utility gallery-inset {
+  --gallery-gutter: clamp(1rem, 5vw, 3.5rem);
+  padding-inline: max(var(--gallery-gutter), calc((100% - 80rem) / 2 + var(--gallery-gutter)));
+  scroll-padding-inline: max(var(--gallery-gutter), calc((100% - 80rem) / 2 + var(--gallery-gutter)));
+}
+
+/* --------------------------------------------------------------------------
+   Componentes (pílulas, cartões, trilhos, CTA fixo: padrão Cabana)
+   -------------------------------------------------------------------------- */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    border-radius: 999px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      translate 0.35s var(--ease-serra),
+      scale 0.2s ease,
+      box-shadow 0.35s ease,
+      filter 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
+  }
+  .btn:active {
+    scale: 0.97;
+  }
+
+  /* Primário: ouro com brilho interno. Texto preto (5,8:1 no meio do ouro). */
+  .btn-ouro {
+    background: linear-gradient(115deg, var(--gold-top) 0%, var(--gold) 55%, var(--gold-end) 100%);
+    color: var(--ink);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      0 14px 30px -14px rgb(12 16 20 / 0.9);
+  }
+  .btn-ouro:hover {
+    filter: brightness(1.08);
+    translate: 0 -2px;
+  }
+
+  .btn-contorno {
+    border: 1px solid rgb(255 247 235 / 0.45);
+    color: var(--gold-light);
+    backdrop-filter: blur(6px);
+  }
+  .btn-contorno:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    color: var(--ink);
+  }
+
+  /* Discreto: pílula de vidro para apoio, sem competir com o principal. */
+  .btn-discreto {
+    border: 1px solid rgb(255 247 235 / 0.22);
+    background: rgb(255 247 235 / 0.08);
+    color: var(--gold-light);
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+  }
+  .btn-discreto:hover {
+    background: rgb(255 247 235 / 0.16);
+    border-color: rgb(255 247 235 / 0.4);
+    translate: 0 -1px;
+  }
+
+  .btn-seta {
+    display: inline-flex;
+    height: 2.1rem;
+    width: 2.1rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgb(12 16 20 / 0.14);
+    transition: translate 0.35s var(--ease-serra);
+  }
+  .btn:hover .btn-seta {
+    translate: 3px 0;
+  }
+
+  /* Cartões escuros com fio dourado e sombra funda. */
+  .cartao {
+    background: linear-gradient(180deg, #1d1315 0%, var(--ink-card) 100%);
+    border: 1px solid rgb(207 165 141 / 0.22);
+    border-radius: 1.25rem;
+    box-shadow:
+      inset 0 1px 0 rgb(255 247 235 / 0.06),
+      0 18px 40px -24px rgb(12 16 20 / 0.9);
+  }
+  .cartao-vivo {
+    transition:
+      translate 0.35s var(--ease-serra),
+      border-color 0.35s ease,
+      box-shadow 0.35s var(--ease-serra);
+  }
+  .cartao-vivo:hover {
+    translate: 0 -4px;
+    border-color: rgb(207 165 141 / 0.55);
+    box-shadow:
+      inset 0 1px 0 rgb(255 247 235 / 0.08),
+      0 28px 56px -30px rgb(207 165 141 / 0.45);
+  }
+
+  /* Setas de carrossel */
+  .seta-trilho {
+    display: inline-flex;
+    height: 2.75rem;
+    width: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid rgb(255 247 235 / 0.28);
+    color: var(--gold-light);
+    background: rgb(255 247 235 / 0.05);
+    cursor: pointer;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease,
+      opacity 0.3s ease;
+  }
+  .seta-trilho:hover:not(:disabled) {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+  .seta-trilho:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  /* Sublinhado que se desenha */
+  .link-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s var(--ease-serra);
+  }
+  .link-draw:hover,
+  .link-draw:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  /* Véus sobre fotos com texto */
+  /* No celular a foto fica em cima e o texto embaixo: véu vertical. No
+     desktop a foto ocupa a metade direita: véu lateral funde a borda. */
+  .veu-hero {
+    background: linear-gradient(180deg, rgb(12 16 20 / 0.45) 0%, rgb(12 16 20 / 0) 22%, rgb(12 16 20 / 0) 40%, rgb(12 16 20 / 0.9) 60%);
+  }
+  @media (min-width: 768px) {
+    .veu-hero {
+      background:
+        linear-gradient(90deg, rgb(12 16 20 / 1) 42%, rgb(12 16 20 / 0.55) 62%, rgb(12 16 20 / 0) 82%),
+        linear-gradient(180deg, rgb(12 16 20 / 0.55) 0%, rgb(12 16 20 / 0) 28%, rgb(12 16 20 / 0) 60%, rgb(12 16 20 / 0.9) 100%);
+    }
+  }
+  .veu-foto {
+    background: linear-gradient(
+      180deg,
+      rgb(12 16 20 / 0.35) 0%,
+      rgb(12 16 20 / 0.1) 34%,
+      rgb(12 16 20 / 0.6) 70%,
+      rgb(12 16 20 / 0.9) 100%
+    );
+  }
+
+  /* Marca-texto: bloco de ouro translúcido atrás do trecho de destaque. */
+  .marca-texto {
+    color: var(--ink);
+    background-image: linear-gradient(115deg, var(--gold-top) 0%, var(--gold) 60%, var(--gold-end) 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding: 0 0.16em 0.04em;
+    margin-inline: -0.02em;
+    border-radius: 0.08em;
+  }
+
+  /* Fade na borda direita dos trilhos. */
+  .trilho-fade {
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent);
+  }
+
+  /* FAQ: o + gira para virar ×. */
+  details[open] > summary .faq-sinal {
+    rotate: 45deg;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* Luz de abajur: um halo dourado na lateral, a mesma luz quente da foto da
+   Justiça. Centrado no meio da seção para não marcar emenda com a silhueta. Dá profundidade às seções sem virar gradiente chamativo. */
+@utility luz {
+  background-image: radial-gradient(60rem 32rem at 0% 55%, rgb(207 165 141 / 0.12), transparent 70%);
+}
+@utility luz-direita {
+  background-image: radial-gradient(56rem 30rem at 100% 50%, rgb(207 165 141 / 0.09), transparent 70%);
+}
+
+/* Entrada escalonada nas grades: cada item entra um passo depois do outro. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .escalonar > .revelar:nth-child(2) {
+      animation-range: entry 8% entry 63%;
+    }
+    .escalonar > .revelar:nth-child(3) {
+      animation-range: entry 16% entry 71%;
+    }
+    .escalonar > .revelar:nth-child(4) {
+      animation-range: entry 24% entry 79%;
+    }
+    .escalonar > .revelar:nth-child(n + 5) {
+      animation-range: entry 30% entry 85%;
+    }
+  }
+}
+
+/* Pontes: a cor da seção vizinha vaza sobre a foto full-bleed e some. */
+@utility ponte-topo-ink {
+  background-image: linear-gradient(to bottom, var(--ink) 0%, transparent 100%);
+}
+@utility ponte-topo-soft {
+  background-image: linear-gradient(to bottom, var(--ink-soft) 0%, transparent 100%);
+}
+@utility ponte-base-ink {
+  background-image: linear-gradient(to top, var(--ink) 0%, transparent 100%);
+}
+
+/* Véu de chegada do hero: o estado final é transparente. Sem animação
+   (movimento reduzido) ele simplesmente não aparece. */
+.hero-clarear {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Movimento: CSS puro. Tudo nasce no estado final; a animação é enfeite e
+   só existe para quem não pediu movimento reduzido.
+   -------------------------------------------------------------------------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes hero-zoom {
+  from {
+    scale: 1.07;
+  }
+  to {
+    scale: 1;
+  }
+}
+@keyframes hero-clarear {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes traco-desenha {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+@keyframes marcar-texto {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+@keyframes mapa-pulso {
+  from {
+    scale: 0.4;
+    opacity: 0.9;
+  }
+  to {
+    scale: 1.6;
+    opacity: 0;
+  }
+}
+
+/* WhatsApp flutuante: anel verde que se expande e some, a cada 2,8s. */
+@keyframes wa-pulso {
+  0% {
+    scale: 1;
+    opacity: 0.45;
+  }
+  70%,
+  100% {
+    scale: 1.55;
+    opacity: 0;
+  }
+}
+.wa-pulso {
+  opacity: 0;
+}
+
+/* Ponto vivo dos rótulos: um anel que se expande e some. */
+@keyframes ponto-pulsa {
+  from {
+    scale: 1;
+    opacity: 0.6;
+  }
+  to {
+    scale: 3;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ponto-aberto::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #3ddc84;
+    animation: ponto-pulsa 2s var(--ease-serra) infinite;
+  }
+  .ponto-vivo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: var(--gold);
+    animation: ponto-pulsa 2.4s var(--ease-serra) infinite;
+  }
+  .wa-pulso {
+    animation: wa-pulso 2.8s ease-out infinite;
+  }
+  .wa-flutuante {
+    animation: rise 0.8s var(--ease-serra) 1.2s both;
+  }
+  .mapa-pulso {
+    animation: mapa-pulso 2.4s var(--ease-serra) infinite;
+  }
+  .rise {
+    animation: rise 0.9s var(--ease-serra) both;
+  }
+  .hero-zoom {
+    animation: hero-zoom 2.6s var(--ease-serra) both;
+  }
+  .hero-clarear {
+    animation: hero-clarear 1.3s ease-out both;
+  }
+  .traco-desenha {
+    transform-origin: left center;
+    animation: traco-desenha 0.8s var(--ease-serra) 0.2s both;
+  }
+  .marca-texto {
+    animation: marcar-texto 0.7s var(--ease-serra) 0.6s both;
+  }
+
+  @supports (animation-timeline: view()) {
+    /* revelar ao rolar, sem JS */
+    .revelar {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    /* fotos full-bleed: parallax enquanto cruzam a tela */
+    @keyframes deriva-foto {
+      from {
+        translate: 0 -4%;
+        scale: 1.12;
+      }
+      to {
+        translate: 0 4%;
+        scale: 1.12;
+      }
+    }
+    .deriva-foto {
+      animation: deriva-foto linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+
+    /* imagem que se abre como cortina ao entrar em cena */
+    @keyframes cortina {
+      from {
+        clip-path: inset(18% 0 0 0 round 1.75rem);
+        opacity: 0.25;
+      }
+      to {
+        clip-path: inset(0 0 0 0 round 1.75rem);
+        opacity: 1;
+      }
+    }
+    .cortina {
+      animation: cortina linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 40%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
