@@ -166,11 +166,17 @@ export const ACOES = {
 
 export const HERO = {
   /** Chip do topo: o monograma, o nome e a cidade, como um cartão de visita. */
-  chipNome: "Valdo Gomes Advocacia",
+  chipNome: "Dr. Valdo Gomes",
+  chipFotoAlt: "Dr. Valdo Gomes, advogado",
   /** Aparece no HTML estático; no navegador vira o status ao vivo (aberto/fechado). */
   chipDetalhe: ["Seg. a sex. · 8h às 17h", ADVOGADA.oab].filter(Boolean).join(" · "),
   /** Linha de atuação logo abaixo do chip. */
-  areas: ["Trabalhista", "Previdenciário", "Cível", "Consumidor"],
+  areas: [
+    { nome: "Trabalhista", icone: "trabalho" },
+    { nome: "Previdenciário", icone: "previdencia" },
+    { nome: "Cível", icone: "civil" },
+    { nome: "Consumidor", icone: "consumidor" },
+  ] satisfies readonly { nome: string; icone: IconeArea }[],
   titulo: "Seu direito é",
   tituloDestaque: "prioridade aqui",
   /** Abertura em duas vozes: a frase-chave em destaque e o apoio mais leve. */

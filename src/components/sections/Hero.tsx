@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/Button";
 import { Icone } from "@/components/ui/Icone";
-import { LogoMarca } from "@/components/ui/Logo";
 import { StatusAtendimento } from "@/components/ui/StatusAtendimento";
 import { VideoFundo } from "@/components/ui/VideoFundo";
 import { asset } from "@/lib/asset";
@@ -55,13 +54,18 @@ export function Hero() {
 
       <div className="container-page flex flex-1 items-end pb-12 pt-[46svh] md:pb-16 md:pt-32">
         <div className="max-w-2xl">
-          {/* cartão de visita: o VG dourado numa placa escura, o nome do
-              escritório e o status do atendimento ao vivo */}
+          {/* cartão de visita: a foto do Dr. Valdo, o nome e o status do
+              atendimento ao vivo */}
           <div className="rise inline-flex max-w-full items-center gap-3.5 rounded-[1.35rem] border border-gold/30 bg-[linear-gradient(120deg,rgb(255_247_235/0.12),rgb(255_247_235/0.03)_60%)] p-1.5 pr-5 shadow-[inset_0_1px_0_rgb(255_247_235/0.16),0_18px_40px_-24px_rgb(12_16_20/0.9)] backdrop-blur-xl">
-            <span className="relative flex h-12 w-14 shrink-0 items-center justify-center overflow-hidden rounded-[1rem] border border-gold/40 bg-[radial-gradient(circle_at_30%_20%,#2a1214,#0c1014_70%)]">
-              <span aria-hidden className="absolute inset-x-2 top-0 h-px bg-gradient-to-r from-transparent via-gold-light/60 to-transparent" />
-              <LogoMarca className="h-7" />
-            </span>
+            <Image
+              src={FOTOS.valdo}
+              alt={HERO.chipFotoAlt}
+              width={48}
+              height={48}
+              sizes="48px"
+              quality={90}
+              className="size-12 shrink-0 rounded-[1rem] object-cover ring-1 ring-gold/50"
+            />
             <span className="flex min-w-0 flex-col gap-1 leading-tight">
               <span className="whitespace-nowrap text-[0.9375rem] font-semibold tracking-[-0.01em] text-gold-light">
                 {HERO.chipNome}
@@ -70,16 +74,19 @@ export function Hero() {
             </span>
           </div>
 
-          {/* as áreas como itens: no celular quebram inteiras, sem ponto solto */}
-          <ul
-            aria-label="Áreas de atuação"
-            className="rise rotulo-caps mt-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[0.6875rem] text-gold-light sm:text-[0.75rem]"
-            style={{ animationDelay: "60ms" }}
-          >
-            {HERO.areas.map((area, indice) => (
-              <li key={area} className="flex items-center gap-3">
-                {indice > 0 ? <span aria-hidden className="size-1 rotate-45 bg-gold" /> : <span aria-hidden className="traco-desenha h-px w-8 bg-gold" />}
-                {area}
+          {/* as áreas em chips de vidro com ícone; cada um leva à seção de áreas */}
+          <ul aria-label="Áreas de atuação" className="rise mt-6 flex flex-wrap gap-2" style={{ animationDelay: "60ms" }}>
+            {HERO.areas.map((area) => (
+              <li key={area.nome}>
+                <a
+                  href="#areas"
+                  className="group inline-flex items-center gap-2 rounded-full border border-gold-light/15 bg-ink/40 py-1.5 pl-1.5 pr-3.5 text-[0.8125rem] font-medium text-gold-light backdrop-blur-md transition duration-300 ease-serra hover:-translate-y-0.5 hover:border-gold/60 hover:bg-gold/10"
+                >
+                  <span className="inline-flex size-6 items-center justify-center rounded-full bg-gold/15 text-gold transition-colors duration-300 group-hover:bg-gold group-hover:text-ink">
+                    <Icone nome={area.icone} className="size-3.5" traco={1.6} />
+                  </span>
+                  {area.nome}
+                </a>
               </li>
             ))}
           </ul>

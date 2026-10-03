@@ -17,8 +17,9 @@ type VideoFundoProps = {
  * primeiro quadro do próprio vídeo, que é o LCP) e o vídeo não disputa banda
  * com ele. Quando dá para tocar, o vídeo aparece por cima com um fade; como
  * o pôster é o mesmo quadro, a troca é imperceptível. Se o autoplay for
- * bloqueado, o pôster fica e nada quebra. Com movimento reduzido, o vídeo
- * não carrega.
+ * bloqueado, o pôster fica e nada quebra. Roda sempre em loop, inclusive com
+ * "efeitos de animação" desligados no sistema: é o pedido do cliente, e o
+ * vídeo é um tour lento, sem cortes bruscos nem piscadas.
  */
 export function VideoFundo({ src, label, className }: VideoFundoProps) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -27,7 +28,6 @@ export function VideoFundo({ src, label, className }: VideoFundoProps) {
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const tocar = (): void => {
       void node.play().catch(() => {
