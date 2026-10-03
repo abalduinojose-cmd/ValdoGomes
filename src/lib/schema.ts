@@ -27,7 +27,7 @@ function endereco(rua: string, cep: string): JsonLd {
   };
 }
 
-const REDES = [CONTATO.instagram, CONTATO.google];
+const REDES = [CONTATO.instagram, CONTATO.facebook, CONTATO.google];
 
 /** O escritório (endereço da Unidade Centro, a do Perfil no Google) com as duas unidades como departamentos. */
 export function legalService(): JsonLd {
@@ -78,7 +78,7 @@ export function attorney(): JsonLd {
     jobTitle: "Advogado",
     worksFor: { "@id": ID_ESCRITORIO },
     address: endereco(CONTATO.endereco.rua, CONTATO.endereco.cep),
-    sameAs: [CONTATO.instagram],
+    sameAs: [CONTATO.instagram, CONTATO.facebook],
   };
 }
 

@@ -41,7 +41,7 @@ export function Contato() {
           </h2>
           <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-relaxed text-gold-light/90">{CONTATO_SECAO.lead}</p>
 
-          <Button href={whatsapp("contato")} tamanho="lg" seta className="mt-9">
+          <Button href={whatsapp("contato")} tamanho="lg" seta="whatsapp" className="mt-9">
             {FINAL.cta}
           </Button>
         </div>

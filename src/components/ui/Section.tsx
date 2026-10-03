@@ -11,12 +11,6 @@ export const FUNDO: Record<Tom, string> = {
   soft: "bg-ink-soft",
 };
 
-/** A luz de abajur alterna o lado conforme o tom, para o ritmo não ficar repetitivo. */
-const LUZ: Record<Tom, string> = {
-  ink: "luz-direita",
-  soft: "luz",
-};
-
 type SectionProps = {
   readonly children: ReactNode;
   readonly id?: string;
@@ -41,7 +35,7 @@ export function Section({
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={cx("relative py-20 md:py-28", FUNDO[tom], LUZ[tom], className)}
+      className={cx("relative py-24 md:py-32", FUNDO[tom], className)}
     >
       {bleed ? children : <Container className={containerClassName}>{children}</Container>}
     </section>

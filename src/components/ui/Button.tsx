@@ -12,8 +12,11 @@ type ButtonProps = {
   readonly children: ReactNode;
   readonly variante?: Variante;
   readonly tamanho?: Tamanho;
-  /** Seta em círculo no fim da pílula (só faz sentido no primário). */
-  readonly seta?: boolean;
+  /**
+   * Chip redondo no fim da pílula: seta diagonal (gira no hover), o glifo do
+   * WhatsApp (fica verde no hover) ou seta para baixo, para âncoras da página.
+   */
+  readonly seta?: boolean | "whatsapp" | "baixo";
   /** Glifo do WhatsApp antes do rótulo. */
   readonly whatsapp?: boolean;
   readonly larguraTotal?: boolean;
@@ -36,7 +39,7 @@ const TAMANHOS: Record<Tamanho, string> = {
 const TAMANHOS_COM_SETA: Record<Tamanho, string> = {
   sm: "h-11 pl-5 pr-1.5 text-[0.8125rem]",
   md: "h-13 pl-6 pr-2 text-[0.875rem]",
-  lg: "h-14 pl-7 pr-2 text-[0.9375rem]",
+  lg: "h-[3.75rem] pl-7 pr-2.5 text-[0.9375rem]",
 };
 
 /**
@@ -70,8 +73,12 @@ export function Button({
       {whatsapp ? <IconeWhatsApp className="size-[1.15rem]" /> : null}
       {children}
       {seta ? (
-        <span aria-hidden className="btn-seta">
-          <Icone nome="seta" className="size-4" traco={1.75} />
+        <span aria-hidden className="btn-seta" data-tipo={seta === true ? "seta" : seta}>
+          {seta === "whatsapp" ? (
+            <IconeWhatsApp className="size-[1.05rem]" />
+          ) : (
+            <Icone nome={seta === "baixo" ? "baixo" : "seta"} className="size-4" traco={1.75} />
+          )}
         </span>
       ) : null}
     </a>

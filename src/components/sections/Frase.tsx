@@ -44,7 +44,7 @@ export function Frase() {
         <div className="revelar max-w-[40rem]">
           <p className="poetico text-[clamp(2rem,4.4vw,3.3rem)] leading-[1.1] text-gold-light">{FRASE.poetico}</p>
           <p className="poetico mt-3 text-[clamp(1.35rem,2.6vw,2rem)] leading-snug">
-            <span className="marca-texto">{FRASE.apoio}</span>
+            <span className="texto-ouro">{FRASE.apoio}</span>
           </p>
         </div>
 

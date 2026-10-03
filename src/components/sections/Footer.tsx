@@ -4,6 +4,7 @@ import { ADVOGADA, CONTATO, NAV, RODAPE, SITE } from "@/lib/site-config";
 
 const REDES: readonly { readonly href: string; readonly rotulo: string; readonly icone: NomeIcone }[] = [
   { href: CONTATO.instagram, rotulo: "Instagram da Advocacia Valdo Gomes", icone: "instagram" },
+  { href: CONTATO.facebook, rotulo: "Facebook do Dr. Valdo Gomes", icone: "facebook" },
   { href: CONTATO.google, rotulo: "Perfil da Advocacia Valdo Gomes no Google", icone: "google" },
   { href: CONTATO.unidades[0]!.mapa, rotulo: "Unidade Centro no mapa", icone: "local" },
   { href: CONTATO.unidades[1]!.mapa, rotulo: "Unidade Cidade Alegria no mapa", icone: "local" },

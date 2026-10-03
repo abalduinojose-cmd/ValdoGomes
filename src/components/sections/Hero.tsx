@@ -4,14 +4,17 @@ import { Button } from "@/components/ui/Button";
 import { Icone } from "@/components/ui/Icone";
 import { LogoMarca } from "@/components/ui/Logo";
 import { StatusAtendimento } from "@/components/ui/StatusAtendimento";
+import { VideoFundo } from "@/components/ui/VideoFundo";
+import { asset } from "@/lib/asset";
 import { FOTOS } from "@/lib/midia";
 import { HERO, whatsapp } from "@/lib/site-config";
 
 /**
- * Hero do Cabana: foto em tela cheia, véu, texto embaixo à esquerda e a
- * faixa de selos no pé. O retrato é vertical, então no desktop ele ocupa a
- * metade direita e o véu lateral funde a borda no preto; no celular a caixa
- * tem a proporção do retrato e a base se dissolve no breu.
+ * Hero do Cabana: o vídeo do tour do escritório (vertical, 720x1280) no
+ * lugar da foto, véu, texto embaixo à esquerda e a faixa de selos no pé. No
+ * desktop o vídeo ocupa a metade direita e o véu lateral funde a borda no
+ * preto; no celular ele fica no alto e a base se dissolve no breu. O pôster
+ * é o primeiro quadro do vídeo e é o LCP; o vídeo entra por cima.
  *
  * Tudo é Server Component. O h1 não anima: é o candidato a LCP.
  */
@@ -20,7 +23,7 @@ export function Hero() {
     <section
       id="topo"
       aria-labelledby="titulo-hero"
-      className="luz relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-ink"
+      className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-ink"
     >
       <div
         aria-hidden
@@ -28,16 +31,17 @@ export function Hero() {
       >
         <div className="hero-zoom absolute inset-0">
           <Image
-            src={FOTOS.fachada}
+            src={FOTOS.heroVideo}
             alt={HERO.retratoAlt}
             fill
             priority
             fetchPriority="high"
             placeholder="blur"
-            quality={70}
+            quality={90}
             sizes="(min-width: 1024px) 52vw, (min-width: 768px) 58vw, 100vw"
-            className="object-cover object-[50%_40%]"
+            className="object-cover object-[50%_45%]"
           />
+          <VideoFundo src={asset("/videos/hero.mp4")} label={HERO.videoAlt} className="absolute inset-0 object-[50%_45%]" />
         </div>
         {/* dissolve a base (celular) e a borda esquerda (desktop) no breu,
             para a foto não virar um recorte */}
@@ -82,7 +86,7 @@ export function Hero() {
 
           <h1 id="titulo-hero" className="mt-4 text-[clamp(2.6rem,6vw,4.8rem)]">
             {`${HERO.titulo} `}
-            <span className="marca-texto">{HERO.tituloDestaque}</span>
+            <span className="texto-ouro">{HERO.tituloDestaque}</span>
           </h1>
 
           {/* duas vozes: a do cliente (em destaque) e a do escritório */}
@@ -95,10 +99,10 @@ export function Hero() {
             className="rise mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
             style={{ animationDelay: "240ms" }}
           >
-            <Button href={whatsapp("hero")} tamanho="lg" seta>
+            <Button href={whatsapp("hero")} tamanho="lg" seta="whatsapp">
               {HERO.cta}
             </Button>
-            <Button href="#areas" variante="contorno" tamanho="lg">
+            <Button href="#areas" variante="contorno" tamanho="lg" seta="baixo">
               {HERO.ctaSecundario}
             </Button>
           </div>

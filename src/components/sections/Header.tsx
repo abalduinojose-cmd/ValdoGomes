@@ -166,7 +166,7 @@ export function Header() {
             ))}
           </nav>
           <div className="container-page border-t border-gold/15 py-6">
-            <Button href={whatsapp("cabecalho")} tamanho="lg" seta larguraTotal>
+            <Button href={whatsapp("cabecalho")} tamanho="lg" seta="whatsapp" larguraTotal>
               {ACOES.whatsapp}
             </Button>
           </div>

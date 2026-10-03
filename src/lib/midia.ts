@@ -2,12 +2,13 @@
  * Imports estáticos das imagens. O next/image tira daqui largura, altura e
  * o blur de carregamento, então nenhuma foto causa layout shift.
  *
- * Fotos: Perfil da Empresa no Google (baixadas em midia/fotos e copiadas para
+ * Vídeo do topo: npm run video (pôster = primeiro quadro). Fotos: Perfil da Empresa no Google (baixadas em midia/fotos e copiadas para
  * src/assets/fotos). Mapas: npm run mapa. Avatares: npm run avatares.
  */
 import type { StaticImageData } from "next/image";
 
 import fachada from "@/assets/fotos/fachada.jpg";
+import heroVideo from "@/assets/fotos/hero-video.jpg";
 import recepcao from "@/assets/fotos/recepcao.jpg";
 import recepcaoCorredor from "@/assets/fotos/recepcao-corredor.jpg";
 import reuniao from "@/assets/fotos/reuniao.jpg";
@@ -32,7 +33,7 @@ import nadiaLima from "@/assets/avaliacoes/nadia-lima.jpg";
 import soyanneSilva from "@/assets/avaliacoes/soyanne-silva.jpg";
 import williamOliveira from "@/assets/avaliacoes/william-oliveira.jpg";
 
-export const FOTOS = { fachada, recepcao, recepcaoCorredor, reuniao, reuniao2, espera, espera2 } as const;
+export const FOTOS = { heroVideo, fachada, recepcao, recepcaoCorredor, reuniao, reuniao2, espera, espera2 } as const;
 
 /** Galeria: a chave do site-config aponta para a foto. */
 export const GALERIA_FOTOS: Record<string, StaticImageData> = {

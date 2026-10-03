@@ -20,7 +20,7 @@ export function Diferenciais() {
         </h2>
 
         <ul className="escalonar mt-10 grid gap-x-10 gap-y-12 md:grid-cols-3">
-          {DIFERENCIAIS.itens.map((item, indice) => (
+          {DIFERENCIAIS.itens.map((item) => (
             <li key={item.titulo} className="revelar group relative border-t border-gold-light/12 pt-7">
               <span
                 aria-hidden
@@ -28,15 +28,9 @@ export function Diferenciais() {
               />
 
               <div className="flex items-start justify-between">
-                <span className="inline-flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e8c7b2] via-gold to-[#a9826b] text-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.3)] transition-[translate] duration-500 ease-serra group-hover:-translate-y-1">
+                <span className="inline-flex size-12 items-center justify-center rounded-2xl border border-gold/40 text-gold">
                   <Icone nome={item.icone as NomeIcone} className="size-[1.35rem]" traco={1.5} />
                 </span>
-                {/* marca d'água em pseudo-elemento: é enfeite, não texto a ler */}
-                <span
-                  aria-hidden
-                  data-numero={String(indice + 1).padStart(2, "0")}
-                  className="font-display text-5xl font-light leading-none text-gold-light/12 transition-colors duration-500 before:content-[attr(data-numero)] group-hover:text-gold/40"
-                />
               </div>
 
               <h3 className="mt-6 text-[1.6rem] font-normal leading-snug">{item.titulo}</h3>

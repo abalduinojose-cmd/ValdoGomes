@@ -8,6 +8,7 @@
     "start": "next start -p 5244",
     "typecheck": "tsc --noEmit",
     "logo": "python scripts/logo.py",
+    "video": "node scripts/video.mjs",
     "avatares": "python scripts/avatares.py",
     "mapa": "python scripts/mapa.py",
     "build:pages": "node scripts/pages.mjs"

@@ -12,6 +12,7 @@ export type NomeIcone =
   | "local"
   | "online"
   | "seta"
+  | "baixo"
   | "mais"
   | "menu"
   | "fechar"
@@ -78,6 +79,7 @@ const TRACOS: Record<NomeIcone, ReactNode> = {
     </>
   ),
   seta: <path d="M7 17 17 7M8.5 7H17v8.5" />,
+  baixo: <path d="M12 5v14M6 13l6 6 6-6" />,
   mais: <path d="M12 5v14M5 12h14" />,
   menu: <path d="M4 9h16M4 15h16" />,
   fechar: <path d="m6 6 12 12M18 6 6 18" />,

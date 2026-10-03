@@ -117,6 +117,7 @@ export const CONTATO = {
   telefonesFixos: ["(24) 3355-4265", "(24) 3360-3084"],
   instagram: "https://www.instagram.com/valdogomesadvocacia/",
   instagramUsuario: "@valdogomesadvocacia",
+  facebook: "https://www.facebook.com/valdo.gomes.148",
   google: "https://share.google/0SpkCsVdAsHugKJ1R",
   googleAvaliacoes: "https://share.google/0SpkCsVdAsHugKJ1R",
   cidade: "Resende",
@@ -186,6 +187,7 @@ export const HERO = {
     { icone: "online", valor: "Online", detalhe: "em todo o Brasil" },
   ],
   retratoAlt: "Fachada da Advocacia Valdo Gomes, com o letreiro do escritório",
+  videoAlt: "Tour pelo escritório: fachada, recepção, sala de reunião e sala de espera",
 } as const;
 
 export type Area = {

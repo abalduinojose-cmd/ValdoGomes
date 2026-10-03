@@ -39,7 +39,7 @@ export function Processo() {
       <p className="revelar mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-champagne">{PROCESSO.nota}</p>
 
       <div className="revelar mt-8 flex justify-center">
-        <Button href={whatsapp("atendimento")} tamanho="lg" seta>
+        <Button href={whatsapp("atendimento")} tamanho="lg" seta="whatsapp">
           {PROCESSO.cta}
         </Button>
       </div>

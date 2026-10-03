@@ -108,21 +108,6 @@
   /* Atmosfera: grão de papel quase invisível sobre o preto, para o fundo
      não ficar chapado. SVG embutido, sem requisição e sem mix-blend-mode
      (que custou 10 pontos de performance na Celebrare). */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 30;
-    pointer-events: none;
-    opacity: 0.06;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0 0.69 0 0 0 1.4 -0.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-  }
-  @media (prefers-contrast: more) {
-    body::before {
-      display: none;
-    }
-  }
-
   /* Selo do Next em desenvolvimento: só existe em dev. */
   nextjs-portal {
     display: none;
@@ -186,21 +171,25 @@
    Componentes (pílulas, cartões, trilhos, CTA fixo: padrão Cabana)
    -------------------------------------------------------------------------- */
 @layer components {
+  /* Botões: pílulas com chip à direita. O brilho atravessa o ouro no hover e
+     o chip gira a seta; o secundário é vidro fosco. */
   .btn {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
     border-radius: 999px;
     font-weight: 600;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
     white-space: nowrap;
     cursor: pointer;
     transition:
       translate 0.35s var(--ease-serra),
       scale 0.2s ease,
       box-shadow 0.35s ease,
-      filter 0.3s ease,
       background-color 0.3s ease,
       border-color 0.3s ease,
       color 0.3s ease;
@@ -209,28 +198,45 @@
     scale: 0.97;
   }
 
-  /* Primário: ouro com brilho interno. Texto preto (5,8:1 no meio do ouro). */
+  /* Primário: ouro chapado com fio de luz no topo. Texto preto (8,5:1). */
   .btn-ouro {
-    background: linear-gradient(115deg, var(--gold-top) 0%, var(--gold) 55%, var(--gold-end) 100%);
+    background: linear-gradient(180deg, #ddb9a3 0%, var(--gold) 100%);
     color: var(--ink);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.3),
-      0 14px 30px -14px rgb(12 16 20 / 0.9);
+      inset 0 1px 0 rgb(255 255 255 / 0.45),
+      0 16px 34px -18px rgb(207 165 141 / 0.65);
+  }
+  .btn-ouro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.55) 50%, transparent 70%);
+    translate: -120% 0;
+    transition: translate 0.8s var(--ease-serra);
   }
   .btn-ouro:hover {
-    filter: brightness(1.08);
     translate: 0 -2px;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.45),
+      0 22px 40px -18px rgb(207 165 141 / 0.8);
+  }
+  .btn-ouro:hover::before {
+    translate: 120% 0;
   }
 
+  /* Secundário: vidro fosco com fio claro. */
   .btn-contorno {
-    border: 1px solid rgb(255 247 235 / 0.45);
+    border: 1px solid rgb(255 247 235 / 0.2);
+    background: rgb(255 247 235 / 0.06);
     color: var(--gold-light);
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 rgb(255 247 235 / 0.1);
   }
   .btn-contorno:hover {
-    background: var(--gold-light);
-    border-color: var(--gold-light);
-    color: var(--ink);
+    border-color: rgb(207 165 141 / 0.7);
+    background: rgb(255 247 235 / 0.11);
+    translate: 0 -2px;
   }
 
   /* Discreto: pílula de vidro para apoio, sem competir com o principal. */
@@ -247,22 +253,38 @@
     translate: 0 -1px;
   }
 
+  /* Chip à direita: escuro no botão de ouro, translúcido no de vidro. */
   .btn-seta {
     display: inline-flex;
-    height: 2.1rem;
-    width: 2.1rem;
+    height: 2.25rem;
+    width: 2.25rem;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    background: rgb(12 16 20 / 0.14);
-    transition: translate 0.35s var(--ease-serra);
+    background: var(--ink);
+    color: var(--gold-light);
+    transition:
+      rotate 0.4s var(--ease-serra),
+      translate 0.4s var(--ease-serra),
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
-  .btn:hover .btn-seta {
-    translate: 3px 0;
+  .btn-contorno .btn-seta {
+    background: rgb(255 247 235 / 0.1);
+    color: var(--gold);
+  }
+  .btn:hover .btn-seta[data-tipo="seta"] {
+    rotate: 45deg;
+  }
+  .btn:hover .btn-seta[data-tipo="baixo"] {
+    translate: 0 2px;
+  }
+  .btn:hover .btn-seta[data-tipo="whatsapp"] {
+    background: #25d366;
+    color: #fff;
   }
 
-  /* Cartões escuros com fio dourado e sombra funda. */
   .cartao {
     background: linear-gradient(180deg, #1d1315 0%, var(--ink-card) 100%);
     border: 1px solid rgb(207 165 141 / 0.22);
@@ -282,7 +304,7 @@
     border-color: rgb(207 165 141 / 0.55);
     box-shadow:
       inset 0 1px 0 rgb(255 247 235 / 0.08),
-      0 28px 56px -30px rgb(207 165 141 / 0.45);
+      0 24px 48px -32px rgb(207 165 141 / 0.4);
   }
 
   /* Setas de carrossel */
@@ -347,6 +369,18 @@
       rgb(12 16 20 / 0.6) 70%,
       rgb(12 16 20 / 0.9) 100%
     );
+  }
+
+  /* Destaque em ouro no próprio texto (mais limpo que o bloco pintado). A
+     folga embaixo evita que o recorte do gradiente corte as descendentes. */
+  .texto-ouro {
+    background-image: linear-gradient(100deg, #f6dfcf 0%, var(--gold) 55%, #b8907a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 0 0.04em 0.1em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 
   /* Marca-texto: bloco de ouro translúcido atrás do trecho de destaque. */
@@ -515,14 +549,6 @@
     border-radius: 999px;
     background: #3ddc84;
     animation: ponto-pulsa 2s var(--ease-serra) infinite;
-  }
-  .ponto-vivo::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 999px;
-    background: var(--gold);
-    animation: ponto-pulsa 2.4s var(--ease-serra) infinite;
   }
   .wa-pulso {
     animation: wa-pulso 2.8s ease-out infinite;

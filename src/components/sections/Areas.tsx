@@ -15,8 +15,8 @@ function CardArea({ area }: { readonly area: Area }) {
   return (
     <li className="revelar cartao cartao-vivo group relative flex flex-col p-7 md:p-9">
       <div className="flex items-center gap-4">
-        <span className="inline-flex size-13 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#e8c7b2] via-gold to-[#a9826b] text-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.3)]">
-          <Icone nome={area.icone} className="size-6" traco={1.4} />
+        <span className="inline-flex size-12 shrink-0 items-center justify-center rounded-2xl border border-gold/40 text-gold">
+          <Icone nome={area.icone} className="size-6" traco={1.3} />
         </span>
         <h3 className="text-[clamp(1.6rem,2.4vw,2rem)] font-light">{area.titulo}</h3>
       </div>
@@ -32,12 +32,10 @@ function CardArea({ area }: { readonly area: Area }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Conversar no WhatsApp sobre ${topico.toLowerCase()}`}
-                className="group/topico inline-flex items-center gap-2 rounded-full border border-gold-light/15 bg-gold-light/[0.04] py-1.5 pl-3.5 pr-1.5 text-[0.875rem] text-gold-light transition duration-300 ease-serra hover:border-gold/70 hover:bg-gold/15"
+                className="group/topico inline-flex items-center gap-1.5 rounded-full border border-gold-light/15 px-3.5 py-1.5 text-[0.875rem] text-gold-light transition duration-300 ease-serra hover:border-[#25D366]/70 hover:bg-[#25D366]/10"
               >
                 {topico}
-                <span className="inline-flex size-6 items-center justify-center rounded-full bg-gold/15 text-gold transition duration-300 group-hover/topico:bg-[#25D366] group-hover/topico:text-white">
-                  <IconeWhatsApp className="size-3.5" />
-                </span>
+                <IconeWhatsApp className="size-3.5 text-[#25D366] opacity-0 transition-opacity duration-300 group-hover/topico:opacity-100" />
               </a>
             </li>
           ))}
